@@ -9,23 +9,35 @@ public class Aviao : MonoBehaviour {
 
 	[SerializeField]
 	private float forca = 10f;
+	private Vector3 posicaoInicial;
 
     void Awake()
     {
         fisica = GetComponent<Rigidbody2D>();
-		this.diretor = GameObject.FindObjectOfType<Diretor>();
-
+		posicaoInicial = this.transform.position;
 	}
 
-    // Update is called once per frame
-    void Update () {
+	private void Start()
+	{
+		this.diretor = GameObject.FindObjectOfType<Diretor>();
+	}
+
+	// Update is called once per frame
+	void Update () {
         if (Input.GetButtonDown("Fire1"))
         {
             this.impulsionar();
         }
 	}
 
-    private void impulsionar()
+	public void Reiniciar()
+	{
+		this.transform.position = this.posicaoInicial;
+		this.fisica.simulated = true;
+	}
+
+
+	private void impulsionar()
     {
 		this.fisica.velocity = Vector2.zero;
         this.fisica.AddForce(Vector2.up * this.forca, ForceMode2D.Impulse);
