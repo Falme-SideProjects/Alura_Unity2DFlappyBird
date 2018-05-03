@@ -4,7 +4,7 @@ using System.Collections;
 public class Obstaculo : MonoBehaviour
 {
 	[SerializeField]
-	private float velocidade = 0.5f;
+	private VariavelCompartilhadaFloat velocidade;
 	[SerializeField]
 	private float variacaoDaPosicaoY;
 	private Vector3 posicaoDoAviao;
@@ -26,7 +26,7 @@ public class Obstaculo : MonoBehaviour
 
 	private void Update()
 	{
-		transform.Translate(Vector3.left * this.velocidade * Time.deltaTime);
+		transform.Translate(Vector3.left * this.velocidade.valor * Time.deltaTime);
 
 		if(!this.pontuou && this.transform.position.x < this.posicaoDoAviao.x)
 		{

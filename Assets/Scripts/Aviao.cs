@@ -11,9 +11,14 @@ public class Aviao : MonoBehaviour {
 	private float forca = 10f;
 	private Vector3 posicaoInicial;
 
+	private bool deveImpulsionar;
+
+	private Animator anim;
+
     void Awake()
     {
         fisica = GetComponent<Rigidbody2D>();
+		anim = GetComponent<Animator>();
 		posicaoInicial = this.transform.position;
 	}
 
@@ -26,8 +31,17 @@ public class Aviao : MonoBehaviour {
 	void Update () {
         if (Input.GetButtonDown("Fire1"))
         {
-            this.impulsionar();
-        }
+			this.deveImpulsionar = true;
+
+		}
+
+		anim.SetFloat("VelocidadeY", this.fisica.velocity.y);
+	}
+
+	private void FixedUpdate()
+	{
+		if(this.deveImpulsionar)
+			this.impulsionar();
 	}
 
 	public void Reiniciar()
@@ -41,7 +55,9 @@ public class Aviao : MonoBehaviour {
     {
 		this.fisica.velocity = Vector2.zero;
         this.fisica.AddForce(Vector2.up * this.forca, ForceMode2D.Impulse);
-    }
+		this.deveImpulsionar = false;
+
+	}
 
 	private void OnCollisionEnter2D(Collision2D collision)
 	{

@@ -7,7 +7,7 @@ public class Pontuacao : MonoBehaviour {
 
 	[SerializeField]
 	private Text textoPontos;
-	private int pontos = 0;
+	public int pontos { get; private set; }
 	private AudioSource audioPontuacao;
 
 	private void Awake()
@@ -34,4 +34,13 @@ public class Pontuacao : MonoBehaviour {
 
 		this.textoPontos.text = this.pontos.ToString();
 	}
+
+	public void SalvarPontuacao()
+	{
+		int recordeAnterior = PlayerPrefs.GetInt("recorde");
+		if (this.pontos > recordeAnterior)
+			PlayerPrefs.SetInt("recorde", this.pontos);
+
+	}
+
 }

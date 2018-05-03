@@ -4,16 +4,25 @@ using System.Collections;
 public class GeradorDeObstaculos : MonoBehaviour
 {
 	[SerializeField]
-	private float tempoParaGerar;
+	private float tempoParaGerarFacil;
+	[SerializeField]
+	private float tempoParaGerarDificil;
+
 	private float cronometro;
 	[SerializeField]
 	private GameObject obstaculos;
+	private ControleDeDificuldade controleDeDificuldade;
 
 
 	// Use this for initialization
 	void Awake()
 	{
-		cronometro = tempoParaGerar;
+		cronometro = tempoParaGerarFacil;
+	}
+
+	private void Start()
+	{
+		controleDeDificuldade = GameObject.FindObjectOfType<ControleDeDificuldade>();
 	}
 
 	// Update is called once per frame
@@ -23,7 +32,7 @@ public class GeradorDeObstaculos : MonoBehaviour
 		if(cronometro <= 0)
 		{
 			Instantiate(obstaculos, transform.position, Quaternion.identity);
-			cronometro = tempoParaGerar;
+			cronometro = Mathf.Lerp(this.tempoParaGerarFacil, this.tempoParaGerarDificil, this.controleDeDificuldade.Dificuldade);
 		}
 	}
 }
